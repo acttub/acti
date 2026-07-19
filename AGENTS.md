@@ -2,17 +2,17 @@
 
 ## Project Structure & Module Organization
 
-This repository contains planning artifacts and a working web app. `outputs/` stores workflow deliverables by stage, including product, design, and implementation notes. `app/` contains the deployable Vite + React + TypeScript application.
+This repository is the deployable Vite + React + TypeScript app for acti (acti.acttub.com). `outputs/` stores the planning deliverables by stage; the app itself lives at the repository root.
 
-Inside `app/src/`, use `components/` for reusable UI, `pages/` for routed screens, `content/` for questions and type copy, `lib/` for scoring, storage, sharing, analytics, and Kakao helpers, and `styles/globals.css` for shared tokens and base styles. Static assets live in `app/public/`, including character images under `public/characters/`. Serverless API code is under `app/api/`.
+Inside `src/`, use `components/` for reusable UI, `pages/` for routed screens, `content/` for questions and type copy, `lib/` for scoring, storage, sharing, analytics, and Kakao helpers, and `styles/globals.css` for shared tokens and base styles. Static assets live in `public/`, including character images under `public/characters/` and share previews under `public/og/`. Build-time scripts live in `scripts/`.
 
 ## Build, Test, and Development Commands
 
-Run commands from `app/` unless noted:
+Run commands from the repository root:
 
 - `pnpm install` installs dependencies from `pnpm-lock.yaml`.
 - `pnpm dev` starts the local Vite server at `http://localhost:5173`.
-- `pnpm build` runs TypeScript project builds and creates the production bundle in `dist/`.
+- `pnpm build` type-checks, bundles into `dist/`, then prerenders the 16 result pages for share crawlers (`scripts/prerender-og.mjs`).
 - `pnpm preview` serves the built app locally for release checks.
 - `pnpm lint` runs ESLint across the app.
 - `pnpm test` runs Vitest once; `pnpm test:watch` starts watch mode.
@@ -25,17 +25,17 @@ The app uses ESLint with TypeScript, React Hooks, and React Refresh rules. Run `
 
 ## Testing Guidelines
 
-Vitest with `jsdom` is configured in `app/vite.config.ts`; setup runs through `src/test-setup.ts`. Place tests next to the code they cover using `*.test.ts` or `*.test.tsx`, for example `src/lib/scoring.test.ts`. Add or update tests for scoring rules, storage behavior, analytics, content invariants, and any user-visible logic changes. Run `pnpm test` before opening a PR.
+Vitest with `jsdom` is configured in `vite.config.ts`; setup runs through `src/test-setup.ts`. Place tests next to the code they cover using `*.test.ts` or `*.test.tsx`, for example `src/lib/scoring.test.ts`. Add or update tests for scoring rules, storage behavior, analytics, content invariants, and any user-visible logic changes. Run `pnpm test` before opening a PR.
 
 ## Commit & Pull Request Guidelines
 
 Recent commits use short conventional-style messages such as `fix(analytics): ...` and `content(questions): ...`. Prefer `type(scope): summary`, with scopes like `questions`, `analytics`, `ui`, or `share`.
 
-Pull requests should include a concise description, linked issue or context, test results, and screenshots or recordings for UI changes. Call out any environment variable changes, especially `VITE_KAKAO_APP_KEY`, `VITE_SITE_URL`, `VITE_GA_MEASUREMENT_ID`, or Resend-related API settings.
+Pull requests should include a concise description, linked issue or context, test results, and screenshots or recordings for UI changes. Call out any environment variable changes, especially `VITE_KAKAO_APP_KEY`, `VITE_SITE_URL`, `VITE_GA_MEASUREMENT_ID`.
 
 ## Security & Configuration Tips
 
-Do not commit `.env.local` or service keys. Start from `app/.env.example`, and keep production secrets in the deployment provider. Kakao sharing and GA can be disabled by leaving their public Vite variables blank.
+Do not commit `.env.local` or service keys. Start from `.env.example`, and keep production secrets in the deployment provider. Kakao sharing and GA can be disabled by leaving their public Vite variables blank.
 
 ## Agent Workflow Instructions
 

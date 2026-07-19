@@ -13,7 +13,7 @@ import AxisBreakdown from '../components/AxisBreakdown';
 import PrimaryButton from '../components/PrimaryButton';
 import SecondaryButton from '../components/SecondaryButton';
 import ShareActionButton from '../components/ShareActionButton';
-import ResultEmailForm from '../components/ResultEmailForm';
+import ActtubCTA from '../components/ActtubCTA';
 import ShareSuccessModal from '../components/ShareSuccessModal';
 import StoryCaptureCanvas from '../components/StoryCaptureCanvas';
 import BottomCTA from '../components/BottomCTA';
@@ -142,13 +142,6 @@ export default function ResultPage() {
           celebrate={isCelebrate}
         />
 
-        {!isRecipient && (
-          <ResultEmailForm
-            code={type.code}
-            onDelivered={() => trackResultAction('email_report', type.code)}
-          />
-        )}
-
         <AxisBreakdown code={type.code} />
 
         <section className="page-result__section">
@@ -207,6 +200,8 @@ export default function ResultPage() {
             </div>
           </section>
         )}
+
+        <ActtubCTA onGo={() => trackResultAction('acttub_cta', type.code)} />
 
         <SecondaryButton size="lg" fullWidth onClick={handleRetry}>
           <RotateCcw size={18} aria-hidden="true" /> 다시 풀어보기

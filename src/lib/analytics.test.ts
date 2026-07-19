@@ -94,13 +94,13 @@ describe('analytics', () => {
     const { initAnalytics, trackResultAction } = await loadAnalytics();
 
     initAnalytics();
-    trackResultAction('email_report', 'MINB');
+    trackResultAction('acttub_cta', 'MINB');
 
     expectDataLayerToContain([
       'event',
       'result_action_request',
       {
-        action: 'email_report',
+        action: 'acttub_cta',
         result_code: 'MINB',
       },
     ]);
