@@ -19,32 +19,37 @@
   --white:    #FFFFFF;
 
   /* ---------- Base: Brand ---------- */
-  --primary-100: #FFE8E0;
-  --primary-300: #FFB39E;
-  --primary-500: #FF7A5C;
-  --primary-600: #E55A3C;
-  --primary-700: #C8553A;
+  /* brand/DESIGN.md 정본. 2026-07 코랄→블루 전환분이 여기까지 내려온 것이다.
+     500=표식/링크, 600=흰 글자를 얹는 면(AA), 700=pressed */
+  --primary-100: #E8F3FF;   /* primary-soft */
+  --primary-300: #D8EBFF;   /* primary-soft-hover */
+  --primary-500: #0A79FB;   /* primary — 링크·아이콘·선택 표식 */
+  --primary-600: #0355F1;   /* primary-strong — 버튼 면, 흰 글자 AA */
+  --primary-700: #0243C4;   /* primary-deep — pressed */
   --success-500: #2BAC4E;
   --warn-500:    #F2A50C;
   --error-500:   #E55353;
 
-  /* ---------- Base: 16유형 시그니처 (HSL 22.5° 균등) ---------- */
-  --type-00: #F2A8A0; --type-00-dark: #8C443B;
-  --type-01: #F2BC9F; --type-01-dark: #8C523B;
-  --type-02: #F2D09F; --type-02-dark: #8C633B;
-  --type-03: #E1F29F; --type-03-dark: #7E8C3B;
-  --type-04: #B7F29F; --type-04-dark: #558C3B;
-  --type-05: #9FF2AE; --type-05-dark: #3B8C53;
-  --type-06: #9FF2CE; --type-06-dark: #3B8C72;
-  --type-07: #9FECF2; --type-07-dark: #3B888C;
-  --type-08: #9FD4F2; --type-08-dark: #3B708C;
-  --type-09: #9FBBF2; --type-09-dark: #3B528C;
-  --type-10: #AE9FF2; --type-10-dark: #473B8C;
-  --type-11: #C49FF2; --type-11-dark: #603B8C;
-  --type-12: #DA9FF2; --type-12-dark: #723B8C;
-  --type-13: #F29FDA; --type-13-dark: #8C3B72;
-  --type-14: #F29FC4; --type-14-dark: #8C3B5B;
-  --type-15: #F29FAE; --type-15-dark: #8C3B4D;
+  /* ---------- 16유형: 브랜드 블루 명암 램프 ----------
+     brand/DESIGN.md — 색상(hue)을 구분에 쓰지 않는다. 밝기만 16단.
+     -dark = 그 배경 위에 얹는 글자색. 00~08은 잉크, 09~15는 흰색.
+     경계는 계산으로 정했고 16단계 전부 AA를 통과한다. 임의로 바꾸지 않는다. */
+  --type-00: #EBF4FF; --type-00-dark: #191F28;
+  --type-01: #D3E7FE; --type-01-dark: #191F28;
+  --type-02: #BBDAFE; --type-02-dark: #191F28;
+  --type-03: #A4CDFE; --type-03-dark: #191F28;
+  --type-04: #8CC0FD; --type-04-dark: #191F28;
+  --type-05: #74B3FD; --type-05-dark: #191F28;
+  --type-06: #5CA6FC; --type-06-dark: #191F28;
+  --type-07: #4499FC; --type-07-dark: #191F28;
+  --type-08: #2C8CFC; --type-08-dark: #191F28;
+  --type-09: #046EEA; --type-09-dark: #FFFFFF;
+  --type-10: #0362D2; --type-10-dark: #FFFFFF;
+  --type-11: #0357BA; --type-11-dark: #FFFFFF;
+  --type-12: #034CA2; --type-12-dark: #FFFFFF;
+  --type-13: #02418A; --type-13-dark: #FFFFFF;
+  --type-14: #023672; --type-14-dark: #FFFFFF;
+  --type-15: #012B5B; --type-15-dark: #FFFFFF;
 
   /* ---------- Spacing (Toss 4·8 base) ---------- */
   --space-1: 4px;
@@ -76,7 +81,7 @@
   --shadow-2: 0 4px 12px rgba(25, 31, 40, 0.06), 0 2px 4px rgba(25, 31, 40, 0.04);
   --shadow-3: 0 12px 28px rgba(25, 31, 40, 0.10), 0 4px 8px rgba(25, 31, 40, 0.06);
   --shadow-cta-top: 0 -4px 16px rgba(25, 31, 40, 0.06);
-  --shadow-focus: 0 0 0 4px rgba(255, 122, 92, 0.28);
+  --shadow-focus: 0 0 0 4px rgba(10, 121, 251, 0.28);
 
   /* ---------- Typography ---------- */
   --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -93,18 +98,20 @@
   --text-3xl:   32px; --lh-3xl:  42px;
   --text-4xl:   40px; --lh-4xl:  50px;
 
-  --fw-regular:  400;
+  --fw-regular:  500;   /* Pretendard Regular 파일이 없다. 가장 얇은 굵기가 500 */
   --fw-medium:   500;
   --fw-semibold: 600;
   --fw-bold:     700;
   --fw-extrabold:800;
 
   /* ---------- Motion ---------- */
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 400ms;
+  /* brand/DESIGN.md: 80~240ms, ease-out 계열의 곧은 곡선.
+     목표를 지나쳤다 돌아오는 탄성(overshoot)은 쓰지 않는다 —
+     그래서 옛 --ease-out-back 토큰을 없애고 참조를 --ease-out으로 모았다. */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 240ms;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-out-back: cubic-bezier(0.34, 1.45, 0.64, 1);
 
   /* ---------- Semantic ---------- */
   --bg-page:     var(--gray-50);

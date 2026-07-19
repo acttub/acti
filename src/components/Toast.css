@@ -15,7 +15,7 @@
   box-shadow: var(--shadow-3);
   z-index: 100;
   animation:
-    toast-enter var(--duration-base) var(--ease-out-back) forwards,
+    toast-enter var(--duration-base) var(--ease-out) forwards,
     toast-exit var(--duration-base) var(--ease-out) 1.4s forwards;
   pointer-events: none;
 }

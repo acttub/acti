@@ -11,7 +11,7 @@ export const BASE_PATH = '';
 const PNG_OPTIONS = {
   cacheBust: true,
   pixelRatio: 2,
-  backgroundColor: '#FAFAF8',
+  backgroundColor: '#F9FAFB',
   skipFonts: false,
 } as const;
 
