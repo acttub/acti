@@ -9,7 +9,6 @@ import { ChevronLeft, RotateCcw, ArrowRight, Camera, MessageCircle, Link as Link
 
 import CaptureCard from '../components/CaptureCard';
 import TypeCard from '../components/TypeCard';
-import AxisBreakdown from '../components/AxisBreakdown';
 import PrimaryButton from '../components/PrimaryButton';
 import SecondaryButton from '../components/SecondaryButton';
 import ShareActionButton from '../components/ShareActionButton';
@@ -142,8 +141,6 @@ export default function ResultPage() {
           face={type.face}
           celebrate={isCelebrate}
         />
-
-        <AxisBreakdown code={type.code} />
 
         <section className="page-result__section">
           <h3 className="page-result__section-title">어울리는 역할</h3>

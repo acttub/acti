@@ -17,9 +17,9 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "public" / "og" / "landing.jpg"
 
 W, H = 1200, 630
-BG = "#FAFAF8"
-INK = "#1F1C18"
-SUB = "#7A756B"
+BG = "#F9FAFB"   # brand/DESIGN.md surface-sub
+INK = "#191F28"  # ink
+SUB = "#6B7684"  # ink-tertiary
 
 FONT_DIRS = [Path(p) for p in (os.environ.get("ACTI_FONT_DIR"),) if p] + [
     Path.home() / "Library" / "Fonts",
@@ -47,7 +47,7 @@ def main() -> None:
     draw.text((80, 274), "찾아봐요", font=font("ExtraBold", 82), fill=INK)
     draw.text(
         (80, 402),
-        "4축 16유형으로 정리한 내 연기 스타일",
+        "질문 14개로 찾아보는 내 연기 캐릭터",
         font=font("Medium", 32),
         fill=SUB,
     )

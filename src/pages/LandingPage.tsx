@@ -37,8 +37,8 @@ export default function LandingPage() {
           찾아봐요!
         </h1>
         <p className="page-landing__sub">
-          4축 16유형으로 정리한<br />
-          내 연기 스타일.
+          질문 14개로 찾아보는<br />
+          내 연기 캐릭터.
         </p>
 
         <div className="page-landing__meta">
