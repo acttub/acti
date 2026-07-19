@@ -41,3 +41,7 @@ coverage
 
 # npm 락파일 (이 프로젝트는 pnpm 사용)
 package-lock.json
+
+# 운영 상태 (재생성 가능, 매 세션 변함)
+.omc/
+**/.omc/
