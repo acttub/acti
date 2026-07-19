@@ -110,7 +110,7 @@ export default function ResultPage() {
         <meta name="description" content={type.tagline} />
         <meta property="og:title" content={`${code} ${type.name}`} />
         <meta property="og:description" content={type.tagline} />
-        <meta property="og:image" content={`${siteUrl}/og/${code}.png`} />
+        <meta property="og:image" content={`${siteUrl}/og/${code}.jpg`} />
         <meta property="og:url" content={`${siteUrl}/result/${code}`} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />

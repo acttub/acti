@@ -60,7 +60,7 @@ pnpm test          # 단발 실행
 pnpm test:watch    # 와치 모드
 ```
 
-- 점수 계산 / localStorage / 콘텐츠 invariant 31개 테스트
+- 점수 계산 / localStorage / 애널리틱스 / 콘텐츠 invariant 46개 테스트
 - `outputs/stage-3/test-report.md` 참고
 
 ## 디렉토리 구조
@@ -74,38 +74,37 @@ src/
   lib/            # scoring, storage, share, kakao
   styles/
     globals.css   # 디자인 토큰 + 베이스 리셋
+api/              # Vercel 서버리스 (결과 메일 발송)
+scripts/          # prerender-og.mjs (빌드 후 OG), make_landing_og.py
 ```
 
-## 콘텐츠 폴리싱 (Phase 2)
+## 콘텐츠
 
-현재 v0.1은 **임시 콘텐츠**입니다:
+- 시나리오 문항 14개 (`src/content/questions.ts`)
+- 16유형 전체 폴리싱 완료 (`src/content/types.ts` 의 `POLISHED`)
+- 캐릭터 이미지 16개 (`public/characters/{CODE}.png`)
 
-- 시나리오 문항 6개 (목표 12~14)
-- 16유형 중 6개만 폴리싱 (나머지는 폴백 표시)
+문항이나 유형 카피를 고치면 `pnpm test` 로 콘텐츠 invariant를 다시 통과시킨다.
 
-폴리싱 워크플로우:
+## 공유 미리보기 (OG)
 
-1. AI 도구로 톤 가이드 + 4축 + 도메인 키워드 입력해 초안
-2. 본인 폴리싱 (위트 일관성 5점 척도 자체 평가)
-3. `src/content/questions.ts` 의 `QUESTIONS` 배열에 추가
-4. `src/content/types.ts` 의 `POLISHED` 객체에 추가
-5. `pnpm test` 로 invariant 통과 확인
+- 유형별 카드: `public/og/{CODE}.jpg` 16개 (1200×630)
+- 랜딩 카드: `public/og/landing.jpg` — `python3 scripts/make_landing_og.py` 로 재생성
+  (Pretendard가 `~/Library/Fonts` 에 없으면 `ACTI_FONT_DIR=<폰트폴더>` 로 지정)
 
-## 16유형 OG 이미지 (Phase 2 후반)
+`react-helmet-async` 는 브라우저에서 태그를 주입하므로 **카카오톡·페이스북 봇은
+결과 페이지의 OG를 못 읽는다.** 그래서 `pnpm build` 가 `scripts/prerender-og.mjs` 를
+이어 실행해 `dist/result/{CODE}/index.html` 16개를 미리 찍는다. Vercel이 정적 파일을
+rewrite보다 먼저 매칭하므로 사람은 SPA를, 봇은 정적 메타를 받는다.
 
-`public/og/{CODE}.png` 16개 필요 (카톡/페북 공유 미리보기).
+- `index.html` 의 `<!-- OG:START --> ~ <!-- OG:END -->` 마커를 지우면 빌드가 실패한다.
+- 절대 URL 베이스는 빌드 시점의 `VITE_SITE_URL` (없으면 `https://acti.acttub.com`).
 
-권장 크기: 1200×630 (OG 표준) 또는 800×800 (카톡 친화).
+## 남은 것
 
-현재 미생성 상태. 카톡 공유 시 이미지 없이 텍스트만 노출됨.
-
-## 알려진 제약 (v0.1)
-
-- [ ] 콘텐츠 16유형 중 10개 폴백 — Phase 2
-- [ ] OG 이미지 16개 미생성 — Phase 2
-- [ ] OG 태그 클라이언트 측 주입 → 카톡 봇 미인식 (사전 정적 생성 필요)
-- [ ] Kakao 앱 키 미설정 시 카톡 공유 비활성
-- [ ] favicon 기본값
+- [ ] GA 동의 배너 / `consent mode` — 정식 런칭 전 (현재는 GA 켜면 즉시 트래킹)
+- [ ] Kakao 앱 키 미설정 시 카톡 공유 비활성 (Vercel 환경변수 확인)
+- [ ] 라이선스 미정
 
 ## 라이선스
 
