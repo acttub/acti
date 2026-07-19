@@ -25,6 +25,7 @@ import { getMyTypeCode, clearMyTypeCode } from '../lib/storage';
 import { getSiteUrl, shareCaptureToInstagram, copyResultUrl, canShareImageFile } from '../lib/share';
 import { ensureKakaoReady, shareToKakao } from '../lib/kakao';
 import { trackResultAction } from '../lib/analytics';
+import { openActtub } from '../lib/acttub';
 
 import NotFoundPage from './NotFoundPage';
 import './ResultPage.css';
@@ -201,7 +202,10 @@ export default function ResultPage() {
           </section>
         )}
 
-        <ActtubCTA onGo={() => trackResultAction('acttub_cta', type.code)} />
+        <ActtubCTA
+          withButton={isRecipient}
+          onGo={() => trackResultAction('acttub_cta', type.code)}
+        />
 
         <SecondaryButton size="lg" fullWidth onClick={handleRetry}>
           <RotateCcw size={18} aria-hidden="true" /> 다시 풀어보기
@@ -210,14 +214,24 @@ export default function ResultPage() {
         <div className="page-result__bottom-pad" aria-hidden="true" />
       </div>
 
-      {isRecipient && (
-        <BottomCTA>
+      {/* 방문자는 먼저 자기 유형을 뽑게 하고, 본인은 acttub 으로 넘긴다. */}
+      <BottomCTA>
+        {isRecipient ? (
           <PrimaryButton size="xl" fullWidth onClick={() => navigate('/quiz')}>
             나도 풀어보기
             <ArrowRight size={20} aria-hidden="true" />
           </PrimaryButton>
-        </BottomCTA>
-      )}
+        ) : (
+          <PrimaryButton
+            size="xl"
+            fullWidth
+            onClick={() => openActtub(() => trackResultAction('acttub_cta', type.code))}
+          >
+            acttub 시작하기
+            <ArrowRight size={20} aria-hidden="true" />
+          </PrimaryButton>
+        )}
+      </BottomCTA>
 
       {toast && <Toast message={toast} />}
 

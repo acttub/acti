@@ -7,25 +7,17 @@
 
 import { ArrowRight } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
+import { openActtub } from '../lib/acttub';
 import './ActtubCTA.css';
-
-/** 유입 출처를 GA에서 구분하려고 utm 을 붙인다. */
-export const ACTTUB_URL =
-  'https://acttub.com/?utm_source=acti&utm_medium=result&utm_campaign=acti_type';
 
 type Props = {
   onGo?: () => void;
+  /** 카드 안에 버튼을 둘지. 화면 하단 sticky 버튼이 이미 있으면 false (중복 방지). */
+  withButton?: boolean;
 };
 
-export default function ActtubCTA({ onGo }: Props) {
-  const handleClick = () => {
-    try {
-      onGo?.();
-    } catch {
-      // 트래킹 실패가 이동을 막지 않도록 무시
-    }
-    window.open(ACTTUB_URL, '_blank', 'noopener,noreferrer');
-  };
+export default function ActtubCTA({ onGo, withButton = true }: Props) {
+  const handleClick = () => openActtub(onGo);
 
   return (
     <section className="acttub-cta">
@@ -38,10 +30,12 @@ export default function ActtubCTA({ onGo }: Props) {
         올린 연기 영상에 질문을 던져서, 놓쳤던 생각을 스스로 찾게 돕는
         AI 연습 파트너예요.
       </p>
-      <PrimaryButton size="lg" fullWidth onClick={handleClick}>
-        acttub 시작하기
-        <ArrowRight size={18} aria-hidden="true" />
-      </PrimaryButton>
+      {withButton && (
+        <PrimaryButton size="lg" fullWidth onClick={handleClick}>
+          acttub 시작하기
+          <ArrowRight size={18} aria-hidden="true" />
+        </PrimaryButton>
+      )}
     </section>
   );
 }

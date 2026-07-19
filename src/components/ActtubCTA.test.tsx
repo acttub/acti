@@ -1,11 +1,12 @@
 /**
- * acti 의 전환 지점은 이 카드 하나다. 링크가 끊기거나 트래킹이 빠지면
+ * acti 의 목적은 acttub 가입이다. 링크가 끊기거나 트래킹이 빠지면
  * 유입 서비스로서의 목적 자체가 사라지므로 테스트로 고정한다.
  */
 
 import { render, screen } from '@testing-library/react';
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
-import ActtubCTA, { ACTTUB_URL } from './ActtubCTA';
+import ActtubCTA from './ActtubCTA';
+import { ACTTUB_URL } from '../lib/acttub';
 
 describe('ActtubCTA', () => {
   beforeEach(() => {
@@ -34,6 +35,13 @@ describe('ActtubCTA', () => {
       '_blank',
       'noopener,noreferrer'
     );
+  });
+
+  it('sticky 버튼이 따로 있는 화면에서는 카드 안 버튼을 숨긴다', () => {
+    render(<ActtubCTA withButton={false} />);
+
+    expect(screen.queryByRole('button', { name: /acttub 시작하기/ })).toBeNull();
+    expect(screen.getByText(/AI 연습 파트너예요/)).toBeTruthy();
   });
 
   it('트래킹이 실패해도 이동을 막지 않는다', () => {
