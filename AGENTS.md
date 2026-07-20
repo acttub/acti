@@ -37,6 +37,26 @@ Pull requests should include a concise description, linked issue or context, tes
 
 Do not commit `.env.local` or service keys. Start from `.env.example`, and keep production secrets in the deployment provider. Kakao sharing and GA can be disabled by leaving their public Vite variables blank.
 
+## 측정 (Vercel Web Analytics)
+
+`index.html`에 `/_vercel/insights/script.js`를 넣어 유입처를 집계한다.
+link.acttub.com에서 몇 명이 넘어오는지를 Referrers에서 보는 것이 목적이다.
+
+⚠️ **`vercel.json`의 SPA 폴백 리라이트에서 `_vercel/`을 제외해야 한다.**
+
+```json
+{ "source": "/((?!api/|_vercel/).*)", "destination": "/index.html" }
+```
+
+`_vercel/`을 빼먹으면 스크립트 요청이 index.html로 리라이트돼 **200 text/html**을
+받는다. 404가 아니라 200이라 정상으로 보이지만 집계는 하나도 안 된다.
+실제로 이 함정에 걸렸었다. 확인은 상태 코드가 아니라 content-type으로 한다.
+
+```bash
+curl -s -o /dev/null -w "%{http_code} %{content_type}\n" \
+  https://acti.acttub.com/_vercel/insights/script.js   # 200 application/javascript 여야 한다
+```
+
 ## Agent Workflow Instructions
 
 Use Superpowers by default. At the start of each task, check whether a Superpowers skill applies and follow it before editing code or asking follow-up questions. Match the workflow to the task: use planning skills for multi-step work, systematic debugging for bugs, TDD for behavior changes when practical, and verification-before-completion before claiming a fix is done.
