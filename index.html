@@ -58,5 +58,10 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Vercel Web Analytics (쿠키리스). 유입처를 보기 위한 것이다 —
+         link.acttub.com에서 몇 명이 넘어왔는지를 Referrers에서 확인한다.
+         첫 진입만 집계된다(SPA 라우트 이동은 세지 않는다). 유입 측정엔 그걸로 충분하다. -->
+    <script defer src="/_vercel/insights/script.js"></script>
   </body>
 </html>
