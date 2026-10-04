@@ -1,40 +1,39 @@
-/**
- * ActtubCTA — 결과 페이지에서 acttub 본 서비스로 넘기는 카드.
- *
- * acti 의 목적은 유형 진단 자체가 아니라 acttub 가입이다. 결과를 다 본
- * 시점이 유일한 전환 지점이라 결과 카드 아래에 둔다.
- */
-
-import { ArrowRight } from 'lucide-react';
+/** 결과 페이지 최상단에서 앱의 가치와 다운로드 행동을 먼저 보여준다. */
+import { ArrowRight, MessageCircle, Video } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { openActtub } from '../lib/acttub';
 import './ActtubCTA.css';
 
 type Props = {
   onGo?: () => void;
-  /** 카드 안에 버튼을 둘지. 화면 하단 sticky 버튼이 이미 있으면 false (중복 방지). */
   withButton?: boolean;
 };
 
 export default function ActtubCTA({ onGo, withButton = true }: Props) {
-  const handleClick = () => openActtub(onGo);
-
   return (
-    <section className="acttub-cta">
-      <p className="acttub-cta__eyebrow">acttub</p>
-      <h3 className="acttub-cta__title">
-        스타일을 알았으면,<br />
-        다음은 연습이에요
-      </h3>
+    <section className="acttub-cta" aria-labelledby="acttub-cta-title">
+      <p className="acttub-cta__eyebrow"><strong>ACTTUB</strong><span>AI 연기 코칭 앱</span></p>
+      <h2 id="acttub-cta-title" className="acttub-cta__title">
+        내 연기 습관,<br />
+        영상으로 살펴보세요
+      </h2>
       <p className="acttub-cta__body">
-        올린 연기 영상에 질문을 던져서, 놓쳤던 생각을 스스로 찾게 돕는
-        AI 연습 파트너예요.
+        연기 영상을 올리고, AI 코치와<br />
+        말투·속도·쉼 같은 습관을 돌아보세요.
       </p>
+      <div className="acttub-cta__journey" aria-label="앱 이용 순서">
+        <span><Video size={17} aria-hidden="true" />연기 영상 업로드</span>
+        <ArrowRight size={16} aria-hidden="true" />
+        <span><MessageCircle size={17} aria-hidden="true" />AI 코치와 대화</span>
+      </div>
       {withButton && (
-        <PrimaryButton size="lg" fullWidth onClick={handleClick}>
-          acttub 시작하기
-          <ArrowRight size={18} aria-hidden="true" />
-        </PrimaryButton>
+        <div className="acttub-cta__action">
+          <PrimaryButton size="xl" fullWidth onClick={() => openActtub(onGo)}>
+            ACTTUB 앱 다운로드
+            <ArrowRight size={20} aria-hidden="true" />
+          </PrimaryButton>
+          <p className="acttub-cta__download-note">App Store · Google Play</p>
+        </div>
       )}
     </section>
   );
