@@ -94,6 +94,7 @@ describe('코어 유입 계측', () => {
 
     // 기존 utm_source=acti는 덮어쓰지 않고 utm_term만 더한다.
     const [openedUrl] = vi.mocked(window.open).mock.calls[0];
+    expect(new URL(String(openedUrl)).pathname).toBe('/app');
     const params = new URL(String(openedUrl)).searchParams;
     expect(params.get('utm_source')).toBe('acti');
     expect(params.get('utm_term')).toBe('linkhub');
