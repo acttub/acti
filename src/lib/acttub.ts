@@ -7,7 +7,7 @@
 
 /** 도착한 쪽에서 출처를 구분할 수 있게 utm 을 붙인다. */
 export const ACTTUB_URL =
-  'https://acttub.com/?utm_source=acti&utm_medium=result&utm_campaign=acti_type';
+  'https://acttub.com/app?utm_source=acti&utm_medium=result&utm_campaign=acti_type';
 
 /* 다만 acttub.com 은 소스 저장소가 특정되지 않아 우리가 계측을 못 붙인다 —
    utm 만 붙여 보내면 이 클릭이 어디에도 안 남는다. 그래서 나가는 순간을
