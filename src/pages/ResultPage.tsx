@@ -30,7 +30,7 @@ import {
 } from '../lib/share';
 import { ensureKakaoReady, shareToKakao, isKakaoConfigured } from '../lib/kakao';
 import { trackResultAction } from '../lib/analytics';
-import { openActtub, trackEvent, trackResultView } from '../lib/acttub';
+import { trackEvent, trackResultView } from '../lib/acttub';
 
 import NotFoundPage from './NotFoundPage';
 import './ResultPage.css';
@@ -199,11 +199,15 @@ export default function ResultPage() {
       </header>
 
       <div className="page-result__container">
+        <ActtubCTA onGo={handleCtaClick} />
+
         {isRecipient && (
           <div className="page-result__visitor">
             <span>친구가 풀어본 결과예요</span>
           </div>
         )}
+
+        <h2 className="page-result__result-label">ACTI 테스트 결과</h2>
 
         <CaptureCard
           typeIndex={type.index}
@@ -280,36 +284,22 @@ export default function ResultPage() {
           </section>
         )}
 
-        <ActtubCTA
-          withButton={isRecipient}
-          onGo={handleCtaClick}
-        />
-
         <SecondaryButton size="lg" fullWidth onClick={handleRetry}>
           <RotateCcw size={18} aria-hidden="true" /> 다시 풀어보기
         </SecondaryButton>
 
-        <div className="page-result__bottom-pad" aria-hidden="true" />
+        {isRecipient && <div className="page-result__bottom-pad" aria-hidden="true" />}
       </div>
 
-      {/* 방문자는 먼저 자기 유형을 뽑게 하고, 본인은 acttub 으로 넘긴다. */}
-      <BottomCTA>
-        {isRecipient ? (
+      {/* 친구 결과를 본 방문자는 자신의 유형도 확인할 수 있다. */}
+      {isRecipient && (
+        <BottomCTA>
           <PrimaryButton size="xl" fullWidth onClick={() => navigate('/quiz')}>
             나도 풀어보기
             <ArrowRight size={20} aria-hidden="true" />
           </PrimaryButton>
-        ) : (
-          <PrimaryButton
-            size="xl"
-            fullWidth
-            onClick={() => openActtub(handleCtaClick)}
-          >
-            acttub 시작하기
-            <ArrowRight size={20} aria-hidden="true" />
-          </PrimaryButton>
-        )}
-      </BottomCTA>
+        </BottomCTA>
+      )}
 
       {toast && <Toast message={toast} />}
 
