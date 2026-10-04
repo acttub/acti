@@ -30,6 +30,22 @@ describe('content.schema invariants', () => {
 });
 
 describe('content.questions invariants', () => {
+  it('문구 개정 후에도 14문항의 ID와 기존 선택지 축 순서를 유지한다', () => {
+    expect(QUESTIONS.map((q) => q.id)).toEqual(Array.from({ length: 14 }, (_, i) => i + 1));
+    expect(QUESTIONS.map((q) => q.choices.map((c) => c.axis).join(''))).toEqual([
+      'IPNA', 'MTBS', 'IPBS', 'SNAI', 'BSAM', 'MTIP', 'ATIP',
+      'SBNA', 'MTBS', 'PANI', 'TMNS', 'BNMT', 'NSAI', 'MTPS',
+    ]);
+  });
+
+  it('선택지는 모바일에서 읽기 쉬운 짧은 문장이다', () => {
+    for (const q of QUESTIONS) {
+      for (const choice of q.choices) {
+        expect(choice.label.length).toBeLessThanOrEqual(45);
+      }
+    }
+  });
+
   it('문항 개수는 6~14 범위', () => {
     expect(QUESTIONS.length).toBeGreaterThanOrEqual(6);
     expect(QUESTIONS.length).toBeLessThanOrEqual(14);
