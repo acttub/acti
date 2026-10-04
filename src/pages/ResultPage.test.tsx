@@ -109,6 +109,31 @@ describe('ResultPage sharing', () => {
     Reflect.deleteProperty(navigator, 'clipboard');
   });
 
+  it('본인 결과는 중복 버튼 없이 카드에서 앱 다운로드로 안내한다', () => {
+    render(resultRoute());
+    const buttons = screen.getAllByRole('button', { name: 'ACTTUB 앱 다운로드' });
+    expect(buttons).toHaveLength(1);
+    expect(screen.getByText('App Store · Google Play')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '나도 풀어보기' })).not.toBeInTheDocument();
+    buttons.forEach((button) => fireEvent.click(button));
+    expect(acttubMocks.openActtub).toHaveBeenCalledTimes(1);
+    acttubMocks.openActtub.mock.calls[0][0]();
+    expect(analyticsMocks.trackResultAction).toHaveBeenCalledWith('acttub_cta', 'MINB');
+    const card = document.querySelector('.acttub-cta')!;
+    expect(document.querySelector('.page-result__container')?.firstElementChild).toBe(card);
+    const share = document.querySelector('.page-result__share')!;
+    expect(card.compareDocumentPosition(share) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('친구 결과는 앱 안내를 보여주되 하단의 나도 풀어보기를 유지한다', () => {
+    window.localStorage.clear();
+    render(resultRoute());
+    expect(screen.getAllByRole('button', { name: 'ACTTUB 앱 다운로드' })).toHaveLength(1);
+    expect(screen.getByRole('button', { name: '나도 풀어보기' })).toBeInTheDocument();
+    expect(document.querySelector('.page-result__container')?.firstElementChild).toBe(document.querySelector('.acttub-cta'));
+    expect(screen.queryByText('ACTTUB 앱 다운로드로 이동해요')).not.toBeInTheDocument();
+  });
+
   it('keeps the prerendered first label as story without reading the UA during render', () => {
     shareMocks.canShareImageFile.mockReturnValue(false);
 
