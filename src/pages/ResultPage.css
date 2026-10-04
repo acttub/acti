@@ -143,3 +143,17 @@
 .page-result__bottom-pad {
   height: var(--space-16);
 }
+
+.page-result > .bottom-cta {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.page-result__result-label {
+  margin: var(--space-4) 0 calc(-1 * var(--space-2));
+  padding-inline: var(--space-1);
+  font-size: var(--text-base);
+  font-weight: var(--fw-bold);
+  color: var(--text-secondary);
+}
