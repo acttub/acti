@@ -1,5 +1,5 @@
 /** 결과 페이지 최상단에서 앱의 가치와 다운로드 행동을 먼저 보여준다. */
-import { ArrowRight, MessageCircle, Video } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { openActtub } from '../lib/acttub';
 import './ActtubCTA.css';
@@ -21,14 +21,9 @@ export default function ActtubCTA({ onGo, withButton = true }: Props) {
         연기 영상을 올리고, AI 코치와<br />
         말투·속도·쉼 같은 습관을 돌아보세요.
       </p>
-      <div className="acttub-cta__journey" aria-label="앱 이용 순서">
-        <span><Video size={17} aria-hidden="true" />연기 영상 업로드</span>
-        <ArrowRight size={16} aria-hidden="true" />
-        <span><MessageCircle size={17} aria-hidden="true" />AI 코치와 대화</span>
-      </div>
       {withButton && (
         <div className="acttub-cta__action">
-          <PrimaryButton size="xl" fullWidth onClick={() => openActtub(onGo)}>
+          <PrimaryButton size="md" fullWidth onClick={() => openActtub(onGo)}>
             ACTTUB 앱 다운로드
             <ArrowRight size={20} aria-hidden="true" />
           </PrimaryButton>
