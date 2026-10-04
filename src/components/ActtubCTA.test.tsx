@@ -20,6 +20,7 @@ describe('ActtubCTA', () => {
   it('acttub 으로 보내는 링크에 유입 출처(utm)가 붙어 있다', () => {
     const url = new URL(ACTTUB_URL);
     expect(url.origin).toBe('https://acttub.com');
+    expect(url.pathname).toBe('/app');
     expect(url.searchParams.get('utm_source')).toBe('acti');
   });
 
@@ -27,8 +28,9 @@ describe('ActtubCTA', () => {
     const onGo = vi.fn();
     render(<ActtubCTA onGo={onGo} />);
 
-    screen.getByRole('button', { name: /acttub 시작하기/ }).click();
+    screen.getByRole('button', { name: /ACTTUB 앱 다운로드/ }).click();
 
+    expect(screen.getByText('App Store · Google Play')).toBeInTheDocument();
     expect(onGo).toHaveBeenCalledTimes(1);
     expect(window.open).toHaveBeenCalledWith(
       ACTTUB_URL,
@@ -40,8 +42,8 @@ describe('ActtubCTA', () => {
   it('sticky 버튼이 따로 있는 화면에서는 카드 안 버튼을 숨긴다', () => {
     render(<ActtubCTA withButton={false} />);
 
-    expect(screen.queryByRole('button', { name: /acttub 시작하기/ })).toBeNull();
-    expect(screen.getByText(/AI 연습 파트너예요/)).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /ACTTUB 앱 다운로드/ })).toBeNull();
+    expect(screen.getByText(/말투·속도·쉼 같은 습관/)).toBeTruthy();
   });
 
   it('트래킹이 실패해도 이동을 막지 않는다', () => {
@@ -53,7 +55,7 @@ describe('ActtubCTA', () => {
       />
     );
 
-    screen.getByRole('button', { name: /acttub 시작하기/ }).click();
+    screen.getByRole('button', { name: /ACTTUB 앱 다운로드/ }).click();
 
     expect(window.open).toHaveBeenCalledWith(
       ACTTUB_URL,
