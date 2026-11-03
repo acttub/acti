@@ -85,6 +85,14 @@ function getAdId(): string | null {
   }
 }
 
+/* ACTTUB 앱 안 광고 배너는 utm_source=acttub_app 으로 들어온다. 이 사람은 이미 앱을
+   쓰고 있으니 결과 화면의 앱 다운로드 안내를 보이지 않는다. */
+export const ACTTUB_APP_SOURCE = 'acttub_app';
+
+export function isFromActtubApp(): boolean {
+  return getUpstream() === ACTTUB_APP_SOURCE;
+}
+
 /** utm_source=acti는 그대로 두고, 잡아둔 원 채널을 utm_term, 광고 소재를 utm_id로 얹는다. */
 function buildActtubUrl(): string {
   const upstream = getUpstream();
