@@ -15,6 +15,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   ACTTUB_URL,
   captureUpstream,
+  isFromActtubApp,
   openActtub,
   resetResultViewTracking,
   trackCore,
@@ -112,6 +113,17 @@ describe('코어 유입 계측', () => {
     expect(window.sessionStorage.getItem('acti_upstream')).toBe('instagram');
     // utm_source 는 utm_term 이 이미 나르므로 나머지 셋만 순서대로 잇는다.
     expect(window.sessionStorage.getItem('acti_ad_id')).toBe('paid-acti-2026-08-11');
+  });
+
+  it('ACTTUB 앱 광고로 들어온 세션을 구분한다', () => {
+    window.history.replaceState({}, '', '/?utm_medium=inapp_banner&utm_source=acttub_app&utm_campaign=acti_promo');
+    captureUpstream();
+    expect(isFromActtubApp()).toBe(true);
+  });
+
+  it('다른 채널로 들어온 세션은 앱 광고 유입이 아니다', () => {
+    window.sessionStorage.setItem('acti_upstream', 'instagram');
+    expect(isFromActtubApp()).toBe(false);
   });
 
   it('잡아둔 광고 소재를 코어 링크의 utm_id로 넘긴다', () => {
