@@ -30,7 +30,7 @@ import {
 } from '../lib/share';
 import { ensureKakaoReady, shareToKakao, isKakaoConfigured } from '../lib/kakao';
 import { trackResultAction } from '../lib/analytics';
-import { trackEvent, trackResultView } from '../lib/acttub';
+import { isFromActtubApp, trackEvent, trackResultView } from '../lib/acttub';
 
 import NotFoundPage from './NotFoundPage';
 import './ResultPage.css';
@@ -63,6 +63,7 @@ export default function ResultPage() {
   const { code: rawCode } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const myCode = useMemo(() => getMyTypeCode(), []);
+  const fromActtubApp = useMemo(() => isFromActtubApp(), []);
   const storyRef = useRef<HTMLElement>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [canShareStory, setCanShareStory] = useState(true);
@@ -199,7 +200,7 @@ export default function ResultPage() {
       </header>
 
       <div className="page-result__container">
-        <ActtubCTA onGo={handleCtaClick} />
+        {!fromActtubApp && <ActtubCTA onGo={handleCtaClick} />}
 
         {isRecipient && (
           <div className="page-result__visitor">
