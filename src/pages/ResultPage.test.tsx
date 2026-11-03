@@ -27,6 +27,7 @@ const acttubMocks = vi.hoisted(() => ({
   openActtub: vi.fn(),
   trackEvent: vi.fn<(name: string) => void>(),
   trackResultView: vi.fn<(code: string) => void>(),
+  isFromActtubApp: vi.fn<() => boolean>(() => false),
 }));
 
 vi.mock('../lib/share', async (importOriginal) => {
@@ -98,6 +99,7 @@ describe('ResultPage sharing', () => {
     shareMocks.shareCaptureToInstagram.mockReset().mockResolvedValue('shared');
     analyticsMocks.trackResultAction.mockReset();
     acttubMocks.openActtub.mockReset();
+    acttubMocks.isFromActtubApp.mockReset().mockReturnValue(false);
     acttubMocks.trackEvent.mockReset();
     acttubMocks.trackResultView.mockReset();
   });
@@ -123,6 +125,14 @@ describe('ResultPage sharing', () => {
     expect(document.querySelector('.page-result__container')?.firstElementChild).toBe(card);
     const share = document.querySelector('.page-result__share')!;
     expect(card.compareDocumentPosition(share) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('ACTTUB 앱 광고로 들어온 사람에게는 앱 다운로드 안내를 보이지 않는다', () => {
+    acttubMocks.isFromActtubApp.mockReturnValue(true);
+    render(resultRoute());
+    expect(screen.queryByRole('button', { name: 'ACTTUB 앱 다운로드' })).not.toBeInTheDocument();
+    expect(document.querySelector('.acttub-cta')).toBeNull();
+    expect(screen.getByText('ACTI 테스트 결과')).toBeInTheDocument();
   });
 
   it('친구 결과는 앱 안내를 보여주되 하단의 나도 풀어보기를 유지한다', () => {
